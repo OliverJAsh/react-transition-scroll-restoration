@@ -3,26 +3,38 @@ import { Link } from './Link';
 import { Provider } from './ReactHistory';
 import { useURL } from './useURL';
 
-const Nav: React.FC = () => (
-    <nav>
-        <ul>
-            <li>
-                <Link href="/">Home</Link>
-            </li>
-            <li>
-                <Link href={'/other'}>Other page</Link>
-            </li>
-        </ul>
-    </nav>
-);
+const MiniExpensive: React.FC = () => {
+    const start = Date.now();
+    while (Date.now() < start + 5) {}
+
+    return null;
+};
+
+const Expensive: React.FC = () => {
+    return Array.from({ length: 50 }).map((x, i) => {
+        return <MiniExpensive key={i} />;
+    });
+};
 
 const Content = () => {
     const url = useURL();
     switch (url.pathname) {
         case '/':
-            return <div>home</div>;
+            return (
+                <div style={{ height: '400vh', background: 'yellow' }}>
+                    <div>Home</div>
+                    <Link href={'/other'}>Other page</Link>
+                    <Expensive />
+                </div>
+            );
         case '/other':
-            return <div>other</div>;
+            return (
+                <div style={{ height: '400vh', background: 'green' }}>
+                    <div>Other page</div>
+                    <Link href="/">Home</Link>
+                    <Expensive />
+                </div>
+            );
         default:
             return null;
     }
@@ -31,7 +43,6 @@ const Content = () => {
 const App = () => {
     return (
         <Provider>
-            <Nav />
             <Content />
         </Provider>
     );
