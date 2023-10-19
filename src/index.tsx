@@ -1,5 +1,10 @@
 import { createRoot } from 'react-dom/client';
-import { Link, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {
+    Link,
+    Outlet,
+    RouterProvider,
+    createBrowserRouter,
+} from 'react-router-dom';
 
 const MiniExpensive: React.FC = () => {
     const start = Date.now();
@@ -17,23 +22,29 @@ const Expensive: React.FC = () => {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: (
-            <div style={{ height: '400vh', background: 'yellow' }}>
-                <div>Home</div>
-                <Link to={'/other'}>Other page</Link>
-                <Expensive />
-            </div>
-        ),
-    },
-    {
-        path: '/other',
-        element: (
-            <div style={{ height: '400vh', background: 'green' }}>
-                <div>Other page</div>
-                <Link to="/">Home</Link>
-                <Expensive />
-            </div>
-        ),
+        element: <Outlet />,
+        children: [
+            {
+                path: '/',
+                element: (
+                    <div style={{ height: '400vh', background: 'yellow' }}>
+                        <div>Home</div>
+                        <Link to={'/other'}>Other page</Link>
+                        <Expensive />
+                    </div>
+                ),
+            },
+            {
+                path: '/other',
+                element: (
+                    <div style={{ height: '400vh', background: 'green' }}>
+                        <div>Other page</div>
+                        <Link to="/">Home</Link>
+                        <Expensive />
+                    </div>
+                ),
+            },
+        ],
     },
 ]);
 
