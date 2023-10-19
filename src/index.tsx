@@ -3,6 +3,7 @@ import {
     Link,
     Outlet,
     RouterProvider,
+    ScrollRestoration,
     createBrowserRouter,
 } from 'react-router-dom';
 
@@ -22,7 +23,12 @@ const Expensive: React.FC = () => {
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Outlet />,
+        element: (
+            <>
+                <ScrollRestoration />
+                <Outlet />
+            </>
+        ),
         children: [
             {
                 path: '/',
