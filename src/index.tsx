@@ -1,7 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { Link } from './Link';
-import { Provider } from './ReactHistory';
-import { useURL } from './useURL';
+import { Link, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const MiniExpensive: React.FC = () => {
     const start = Date.now();
@@ -16,35 +14,32 @@ const Expensive: React.FC = () => {
     });
 };
 
-const Content = () => {
-    const url = useURL();
-    switch (url.pathname) {
-        case '/':
-            return (
-                <div style={{ height: '400vh', background: 'yellow' }}>
-                    <div>Home</div>
-                    <Link href={'/other'}>Other page</Link>
-                    <Expensive />
-                </div>
-            );
-        case '/other':
-            return (
-                <div style={{ height: '400vh', background: 'green' }}>
-                    <div>Other page</div>
-                    <Link href="/">Home</Link>
-                    <Expensive />
-                </div>
-            );
-        default:
-            return null;
-    }
-};
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: (
+            <div style={{ height: '400vh', background: 'yellow' }}>
+                <div>Home</div>
+                <Link to={'/other'}>Other page</Link>
+                <Expensive />
+            </div>
+        ),
+    },
+    {
+        path: '/other',
+        element: (
+            <div style={{ height: '400vh', background: 'green' }}>
+                <div>Other page</div>
+                <Link to="/">Home</Link>
+                <Expensive />
+            </div>
+        ),
+    },
+]);
 
 const App = () => {
     return (
-        <Provider>
-            <Content />
-        </Provider>
+        <RouterProvider router={router} future={{ v7_startTransition: true }} />
     );
 };
 
