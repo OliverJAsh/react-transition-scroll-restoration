@@ -9,7 +9,9 @@ export const useURL = () => {
 
     React.useEffect(() => {
         history.listen(() => {
-            setState(new URL(window.location.href));
+            React.startTransition(() => {
+                setState(new URL(window.location.href));
+            });
         });
     }, []);
 
